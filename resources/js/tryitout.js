@@ -39,9 +39,9 @@ function getCookie(name) {
 function tryItOut(endpointId) {
     document.querySelector(`#btn-tryout-${endpointId}`).hidden = true;
     document.querySelector(`#btn-canceltryout-${endpointId}`).hidden = false;
-    const executeBtn = document.querySelector(`#btn-executetryout-${endpointId}`).hidden = false;
+    const executeBtn = document.querySelector(`#btn-executetryout-${endpointId}`)
+    executeBtn.hidden = false;
     executeBtn.disabled = false;
-
     // Show all input fields
     document.querySelectorAll(`input[data-endpoint=${endpointId}],label[data-endpoint=${endpointId}]`)
         .forEach(el => el.style.display = 'block');
@@ -89,7 +89,7 @@ function makeAPICall(method, path, body = {}, query = {}, headers = {}, endpoint
         body = JSON.stringify(body)
     }
 
-    const url = new URL(tryItOutBaseUrl + '/' + path.replace(/^\//, ''));
+    const url = new URL(window.tryItOutBaseUrl + '/' + path.replace(/^\//, ''));
 
     // We need this function because if you try to set an array or object directly to a URLSearchParams object,
     // you'll get [object Object] or the array.toString()
@@ -119,7 +119,7 @@ function makeAPICall(method, path, body = {}, query = {}, headers = {}, endpoint
         headers,
         body: method === 'GET' ? undefined : body,
         signal: window.abortControllers[endpointId].signal,
-        referrer: tryItOutBaseUrl,
+        referrer: window.tryItOutBaseUrl,
         mode: 'cors',
         credentials: 'same-origin',
     })
